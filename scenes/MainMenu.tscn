@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://ressources/Fonts/GeneraleStation-Regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://ressources/Fonts/Generale_Station_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://ressources/Guitheme.tres" type="Theme" id=3]
+[ext_resource path="res://scenes/MainMenu.gd" type="Script" id=4]
+[ext_resource path="res://scenes/SceneTransitionRect.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFont" id=3]
+size = 70
+font_data = ExtResource( 1 )
+
+[sub_resource type="ShortCut" id=2]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 112.0
+margin_right = 8.0
+margin_bottom = 112.0
+theme = ExtResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="GridContainer" parent="CenterContainer"]
+margin_left = 813.0
+margin_top = 311.0
+margin_right = 1107.0
+margin_bottom = 768.0
+custom_constants/vseparation = 70
+custom_constants/hseparation = 50
+
+[node name="Titel" type="Label" parent="CenterContainer/VSplitContainer"]
+margin_right = 294.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 3 )
+text = "Titel"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/VSplitContainer"]
+margin_top = 155.0
+margin_right = 294.0
+margin_bottom = 457.0
+custom_constants/separation = 30
+
+[node name="Start_Button" type="Button" parent="CenterContainer/VSplitContainer/VBox"]
+margin_right = 294.0
+margin_bottom = 53.0
+focus_neighbour_top = NodePath("../Credits_Licences_Button")
+focus_neighbour_bottom = NodePath("../Exit_Button")
+focus_next = NodePath("../Exit_Button")
+focus_previous = NodePath("../Credits_Licences_Button")
+custom_fonts/font = ExtResource( 2 )
+shortcut = SubResource( 2 )
+text = "Start Game"
+
+[node name="Play_Level_Button" type="Button" parent="CenterContainer/VSplitContainer/VBox"]
+margin_top = 83.0
+margin_right = 294.0
+margin_bottom = 136.0
+focus_neighbour_top = NodePath("../Settings_Button")
+focus_neighbour_bottom = NodePath("../Start_Button")
+focus_next = NodePath("../Start_Button")
+focus_previous = NodePath("../Settings_Button")
+custom_fonts/font = ExtResource( 2 )
+text = "Play Level"
+
+[node name="Settings_Button" type="Button" parent="CenterContainer/VSplitContainer/VBox"]
+margin_top = 166.0
+margin_right = 294.0
+margin_bottom = 219.0
+focus_neighbour_top = NodePath("../Exit_Button")
+focus_neighbour_bottom = NodePath("../Credits_Licences_Button")
+focus_next = NodePath("../Credits_Licences_Button")
+focus_previous = NodePath("../Exit_Button")
+custom_fonts/font = ExtResource( 2 )
+text = "Settings"
+
+[node name="Exit_Button" type="Button" parent="CenterContainer/VSplitContainer/VBox"]
+margin_top = 249.0
+margin_right = 294.0
+margin_bottom = 302.0
+focus_neighbour_top = NodePath("../Start_Button")
+focus_neighbour_bottom = NodePath("../Settings_Button")
+focus_next = NodePath("../Settings_Button")
+focus_previous = NodePath("../Start_Button")
+custom_fonts/font = ExtResource( 2 )
+text = "Exit"
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SceneTransitionRect" parent="." instance=ExtResource( 5 )]
+margin_left = -8.0
+margin_top = -112.0
+margin_bottom = -104.0
+transition_on_load = false
