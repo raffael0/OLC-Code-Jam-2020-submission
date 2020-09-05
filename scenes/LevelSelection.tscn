@@ -1,11 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ressources/Guitheme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/SceneTransitionRect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/LevelSelection.gd" type="Script" id=3]
 
 [node name="LevelSelection" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,8 +79,10 @@ margin_right = 855.0
 margin_bottom = 136.0
 text = " Level 6 "
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Back_Button" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 245.0
 margin_right = 855.0
 margin_bottom = 298.0
 text = "Back"
+
+[node name="SceneTransitionRect" parent="." instance=ExtResource( 2 )]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://ressources/sprites/BrokenPipe.png" type="Texture" id=1]
+[ext_resource path="res://ressources/sprites/pipe_broken.png" type="Texture" id=1]
 [ext_resource path="res://ressources/sprites/Steam_Sprite_Particle.png" type="Texture" id=2]
 [ext_resource path="res://scenes/Area2D.gd" type="Script" id=3]
 
@@ -16,15 +16,14 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 56.9055, 35.6291 )
+extents = Vector2( 40.2664, 25.4869 )
 
 [node name="BrokenPipe" type="Node2D"]
 pause_mode = 2
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Particles" type="Particles2D" parent="."]
+visible = false
+position = Vector2( 0, -19.9875 )
 rotation = -3.14159
 z_index = -1
 amount = 100
@@ -38,15 +37,21 @@ process_material = SubResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="Collisionshape" type="Area2D" parent="."]
+position = Vector2( 0, -54.4183 )
+space_override = 3
+gravity_vec = Vector2( -0.2, 1 )
+gravity = -500.0
+linear_damp = 0.0
 angular_damp = 0.0
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collisionshape"]
+position = Vector2( 0, 9.83542 )
 shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 visible = false
-position = Vector2( 1.13278, 27.5419 )
+position = Vector2( -2.02656e-06, 0 )
 texture = ExtResource( 1 )

@@ -1,12 +1,43 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/Level.gd" type="Script" id=1]
 [ext_resource path="res://scenes/IngameUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ressources/sprites/pause.png" type="Texture" id=3]
 [ext_resource path="res://ressources/Tilemaps/MainTileMap.tres" type="TileSet" id=4]
+[ext_resource path="res://ressources/sprites/right.png" type="Texture" id=5]
+[ext_resource path="res://ressources/sprites/background_great_machine_FINAL1.jpg" type="Texture" id=6]
+[ext_resource path="res://ressources/Guitheme.tres" type="Theme" id=7]
+[ext_resource path="res://ressources/Fonts/GeneraleStation-Regular.otf" type="DynamicFontData" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.258824, 0.462745, 0.541176, 0 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+font_data = ExtResource( 8 )
 
 [node name="Level" type="Node2D"]
 pause_mode = 2
 script = ExtResource( 1 )
+maxPipes = 5
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1416, 832 )
+scale = Vector2( 3.5288, 2.8859 )
+z_index = -2
+texture = ExtResource( 6 )
 
 [node name="Mainmap" type="TileMap" parent="."]
 pause_mode = 2
@@ -19,13 +50,73 @@ tile_data = PoolIntArray( -1, 3, 0, -65536, 3, 0, -65535, 3, 0, -65534, 3, 0, -6
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="IngameUI" parent="CanvasLayer" instance=ExtResource( 2 )]
-margin_left = 0.0
-margin_top = 928.0
-margin_right = 1920.0
-margin_bottom = 928.0
+margin_left = -16.0
+margin_top = -888.0
+margin_right = 1904.0
+margin_bottom = -888.0
+
+[node name="PlayPauseIcon" type="AnimatedSprite" parent="CanvasLayer"]
+position = Vector2( 1872, 48 )
+z_index = 1
+frames = SubResource( 1 )
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -600.0
+margin_bottom = 78.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 600, 0 )
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer"]
+margin_right = 600.0
+margin_bottom = 78.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/PanelContainer/HBoxContainer"]
+margin_right = 484.0
+margin_bottom = 78.0
+grow_horizontal = 0
+
+[node name="UsedBrokenPipesLabel" type="Label" parent="CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+margin_right = 484.0
+margin_bottom = 37.0
+theme = ExtResource( 7 )
+custom_fonts/font = SubResource( 3 )
+text = "BrokenPipes used: 0/12"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UsedPipesLabel" type="Label" parent="CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 41.0
+margin_right = 484.0
+margin_bottom = 78.0
+theme = ExtResource( 7 )
+custom_fonts/font = SubResource( 4 )
+text = "Pipes used: 0/12"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 1408, 816 )
+position = Vector2( 1408, 832 )
 scale = Vector2( 1.6, 1 )
 current = true
-zoom = Vector2( 1.5, 1.6 )
+zoom = Vector2( 1.463, 1.54 )

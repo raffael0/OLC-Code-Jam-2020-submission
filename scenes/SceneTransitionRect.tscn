@@ -4,6 +4,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade"
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
