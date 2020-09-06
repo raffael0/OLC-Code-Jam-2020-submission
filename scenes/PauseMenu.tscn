@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ressources/Guitheme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/PauseMenu.gd" type="Script" id=2]
-[ext_resource path="res://scenes/SceneTransitionRect.tscn" type="PackedScene" id=3]
 
 [node name="Pause" type="Control"]
 anchor_right = 1.0
@@ -60,5 +59,3 @@ margin_bottom = 690.0
 rect_min_size = Vector2( 400, 300 )
 mouse_filter = 2
 color = Color( 0.258824, 0.462745, 0.541176, 1 )
-
-[node name="SceneTransitionRect" parent="." instance=ExtResource( 3 )]

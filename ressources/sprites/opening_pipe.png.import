@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WallBlock.png-afe8c368b83e23bf00541001764e7fc8.stex"
+path="res://.import/opening_pipe.png-49b14a2f66ca4206d512006a5a60cfda.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ressources/sprites/WallBlock.png"
-dest_files=[ "res://.import/WallBlock.png-afe8c368b83e23bf00541001764e7fc8.stex" ]
+source_file="res://ressources/sprites/opening_pipe.png"
+dest_files=[ "res://.import/opening_pipe.png-49b14a2f66ca4206d512006a5a60cfda.stex" ]
 
 [params]
 

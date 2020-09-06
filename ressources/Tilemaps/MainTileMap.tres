@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=14 format=2]
+[gd_resource type="TileSet" load_steps=26 format=2]
 
 [ext_resource path="res://ressources/sprites/piepe.png" type="Texture" id=1]
 [ext_resource path="res://ressources/sprites/pipe_broken.png" type="Texture" id=2]
 [ext_resource path="res://ressources/sprites/BlackBlockTile.png" type="Texture" id=3]
+[ext_resource path="res://ressources/sprites/opening_pipe.png" type="Texture" id=4]
 
 [sub_resource type="NavigationPolygon" id=6]
 vertices = PoolVector2Array( 128, 128, 0, 128, 0, 0, 128, 0 )
@@ -33,6 +34,42 @@ polygon = PoolVector2Array( 128, 83.7714, 0, 84.7761, 0, 43.2488, 128, 43.2488 )
 
 [sub_resource type="ConvexPolygonShape2D" id=15]
 points = PoolVector2Array( 0, 44.5883, 128, 44.2534, 128, 86.7855, 0, 82.7667 )
+
+[sub_resource type="NavigationPolygon" id=19]
+vertices = PoolVector2Array( 128, 128, 1.09183, 128, 1.09183, 55.1042, 128, 55.1042 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="OccluderPolygon2D" id=20]
+polygon = PoolVector2Array( 128, 128, 0, 128, 0, 53.6574, 128, 53.6574 )
+
+[sub_resource type="ConvexPolygonShape2D" id=21]
+points = PoolVector2Array( 128, 66.6782, 0.609589, 66.6782, 0.609589, 55.5864, 128, 55.5864 )
+
+[sub_resource type="NavigationPolygon" id=22]
+vertices = PoolVector2Array( 0.406647, 54.6219, 53.9367, 55.1042, 52.9722, 38.7076, 90.1057, 38.7076, 89.6234, 127.924, 0.888885, 127.924 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ) ]
+
+[sub_resource type="OccluderPolygon2D" id=23]
+polygon = PoolVector2Array( 0.888885, 54.6219, 53.4545, 55.1042, 53.4545, 39.1898, 90.1057, 38.7076, 90.1057, 127.442, 0.406647, 127.442 )
+
+[sub_resource type="ConvexPolygonShape2D" id=24]
+points = PoolVector2Array( 0.888885, 55.5864, 52.9722, 55.5864, 53.4545, 39.1898, 89.1412, 39.1898, 52.9722, 65.7137, 0.406647, 64.7492 )
+
+[sub_resource type="NavigationPolygon" id=25]
+vertices = PoolVector2Array( 128, 70.8156, 0, 70.8156, 0, 0.888855, 128, 0.888855 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="OccluderPolygon2D" id=26]
+polygon = PoolVector2Array( 128, 70.8156, 0.127319, 70.8156, 0.127319, 0.406616, 128, 0.406616 )
+
+[sub_resource type="ConvexPolygonShape2D" id=27]
+points = PoolVector2Array( 128, 69.8511, 1.09183, 69.8511, 1.09183, 56.8302, 128, 56.8302 )
+
+[sub_resource type="OccluderPolygon2D" id=28]
+polygon = PoolVector2Array( 0.888885, 0.406616, 90.1057, 0.888855, 89.6234, 88.6589, 52.9722, 89.1412, 52.49, 69.3688, 0.406647, 69.8511 )
+
+[sub_resource type="ConvexPolygonShape2D" id=29]
+points = PoolVector2Array( 0.406647, 69.8511, 0.888885, 61.6528, 52.9722, 60.6882, 89.6234, 84.8009, 89.6234, 88.6589, 52.49, 88.6589, 52.49, 70.3333 )
 
 [sub_resource type="GDScript" id=9]
 
@@ -91,4 +128,75 @@ points = PoolVector2Array( 0, 44.5883, 128, 44.2534, 128, 86.7855, 0, 82.7667 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 5/z_index = 0
+6/name = "opening_pipe.png 6"
+6/texture = ExtResource( 4 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 0, 0, 128, 128 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 0, 0 )
+6/occluder = SubResource( 20 )
+6/navigation_offset = Vector2( 0, 0 )
+6/navigation = SubResource( 19 )
+6/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 21 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+6/z_index = 1
+7/name = "opening_pipe.png 7"
+7/texture = ExtResource( 4 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 128, 0, 128, 128 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/occluder = SubResource( 23 )
+7/navigation_offset = Vector2( 0, 0 )
+7/navigation = SubResource( 22 )
+7/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 24 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+7/z_index = 1
+8/name = "opening_pipe.png 8"
+8/texture = ExtResource( 4 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 0, 128, 128, 128 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 0, 0 )
+8/occluder = SubResource( 26 )
+8/navigation_offset = Vector2( 0, 0 )
+8/navigation = SubResource( 25 )
+8/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 27 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+8/z_index = 1
+9/name = "opening_pipe.png 9"
+9/texture = ExtResource( 4 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 128, 128, 128, 128 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/occluder = SubResource( 28 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 29 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+9/z_index = 1
 script = SubResource( 9 )

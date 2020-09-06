@@ -1,0 +1,83 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ressources/Fonts/GeneraleStation-Regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://ressources/Guitheme.tres" type="Theme" id=2]
+[ext_resource path="res://scenes/FirstMesssage.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Anim"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -1.3, -0.1, 0, 19.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 1.0 ]
+}
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+margin_left = 690.0
+margin_top = 290.0
+margin_right = 1230.0
+margin_bottom = 790.0
+rect_min_size = Vector2( 540, 500 )
+mouse_filter = 2
+color = Color( 0.258824, 0.462745, 0.541176, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 710.0
+margin_top = 355.0
+margin_right = 1210.0
+margin_bottom = 725.0
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+margin_right = 500.0
+margin_bottom = 370.0
+rect_min_size = Vector2( 500, 370 )
+custom_fonts/normal_font = SubResource( 1 )
+visible_characters = 0
+percent_visible = 0.0
+text = "Finally you are here! As you probably know our pneumatic tube system blew up yesterday and destroyed some of the connections. 
+
+Now our  messages can't reach the Containment facility . Can you  temporarily fix our system so that we can send urgent messages? We only have these old pipes here which might be too small. That surely won't be a problem for you!"
+scroll_active = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/VBoxContainer/Label"]
+playback_process_mode = 0
+method_call_mode = 1
+anims/Anim = SubResource( 2 )
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 374.0
+margin_right = 500.0
+margin_bottom = 427.0
+text = "Continue"
+__meta__ = {
+"_edit_use_anchors_": false
+}

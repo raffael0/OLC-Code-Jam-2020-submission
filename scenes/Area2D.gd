@@ -8,9 +8,8 @@ signal body_entered_rotation(area_rotation)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("body_entered",self,"rotation_signal_emission")
+	gravity_vec = gravity_vec.rotated(get_parent().rotation)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-func rotation_signal_emission(_body):
-	emit_signal("body_entered_rotation",get_parent().rotation)
+	
