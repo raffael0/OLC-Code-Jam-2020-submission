@@ -21,6 +21,7 @@ var selectedItem = 0
 var previousPosition: Vector2 
 var previousItem: int
 var previousRotation
+var menuPaused = false
 # true = running
 # false = paused
 var editing_status = true
@@ -55,119 +56,122 @@ func _physics_process(_delta):
 	pass
 
 func _unhandled_input(_event):
-	if editing_status:
-		if $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position())) != 3:		
-			if Input.is_action_pressed("Ingame_Clicked"):
-				if previousPosition != null:
-						if previousRotation == 0: $Mainmap.set_cellv(previousPosition,previousItem)
-						if previousRotation == 1: $Mainmap.set_cellv(previousPosition,previousItem,true, false ,true)
-						if previousRotation == 2: $Mainmap.set_cellv(previousPosition,previousItem,true,true,false)
-						if previousRotation == 3: $Mainmap.set_cellv(previousPosition,previousItem,false,true,true)
-				if ($Mainmap.get_used_cells_by_id(pipeIndex).size()< maxPipes && selectedItem == pipeIndex) || ($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()< maxBrokenPipes && selectedItem == brokenPipeIndex) || selectedItem == -1:
-					var currentIndex = $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position()))
-					if ((currentIndex == brokenPipeIndex) || (currentIndex == pipeIndex) || currentIndex == -1) :
-						if currentRotation == 0: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
-						if currentRotation == 1: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem, true, false ,true)
-						if currentRotation == 2: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true,true,false)
-						if currentRotation == 3: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,false,true,true)
-						$Mainmap.update_dirty_quadrants()
-						get_tree().set_input_as_handled()
-						previousPosition = $Mainmap.world_to_map(get_global_mouse_position())
-						previousItem = $Mainmap.get_cellv(previousPosition)
-						previousRotation = currentRotation
-	
-						#Update Labels
-						$CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer/UsedBrokenPipesLabel.text = ("BrokenPipes used:"+ str($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()) + "/"+ str(maxBrokenPipes))
-						$CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer/UsedPipesLabel.text = ("Pipes used: " + str($Mainmap.get_used_cells_by_id(pipeIndex).size()) +"/"+str(maxPipes))
-	
-						if positionMap.has(previousPosition):
-							remove_child(positionMap[previousPosition])
-							positionMap.erase(previousPosition)
-							
-						match selectedItem:
-							brokenPipeIndex:
-								var node = BrokenPipeOverlay.instance()
-								node.add_to_group("BrokenPipeParticleNodes")
-								node.position = $Mainmap.map_to_world(previousPosition) + $Mainmap.cell_size/2
-								node.visible = true
-								node.rotation_degrees= currentRotation*90
-								positionMap[previousPosition] = node
-								add_child(node)
-			else:
-				if ($Mainmap.get_used_cells_by_id(pipeIndex).size() -1 <= maxPipes && selectedItem == pipeIndex) || ($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()-1 <= maxBrokenPipes && selectedItem == brokenPipeIndex) || selectedItem == -1:
-					var currentIndex = $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position()))
-					if ((currentIndex == brokenPipeIndex) || (currentIndex == pipeIndex) || currentIndex == -1) :
-						#player hovered no where before
-						if previousPosition != null:
+	if !menuPaused:
+		if editing_status:
+			if $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position())) != 3:		
+				if Input.is_action_pressed("Ingame_Clicked"):
+					if previousPosition != null:
 							if previousRotation == 0: $Mainmap.set_cellv(previousPosition,previousItem)
 							if previousRotation == 1: $Mainmap.set_cellv(previousPosition,previousItem,true, false ,true)
 							if previousRotation == 2: $Mainmap.set_cellv(previousPosition,previousItem,true,true,false)
 							if previousRotation == 3: $Mainmap.set_cellv(previousPosition,previousItem,false,true,true)
-						previousPosition = $Mainmap.world_to_map(get_global_mouse_position())
-						var flipped_x = $Mainmap.is_cell_x_flipped(previousPosition.x, previousPosition.y)
-						var flipped_y = $Mainmap.is_cell_y_flipped(previousPosition.x, previousPosition.y)
-						var transposed = $Mainmap.is_cell_transposed(previousPosition.x, previousPosition.y)
-						
-						if flipped_x && !flipped_y && transposed: previousRotation = 1
-						elif flipped_x && flipped_y && !transposed: previousRotation = 2
-						elif !flipped_x && flipped_y && transposed: previousRotation = 3
-						else: previousRotation = 0
-						
-						previousItem = $Mainmap.get_cellv(previousPosition)
-						if currentRotation == 0: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
-						if currentRotation == 1: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true, false ,true)
-						if currentRotation == 2: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true,true,false)
-						if currentRotation == 3: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,false,true,true)
-						
-						#$Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
-						$Mainmap.update_dirty_quadrants()
-
-
-	if Input.is_action_just_pressed("Ingame_toggle_start"):
-			editing_status = false
-			get_tree().paused = false
-			
-			for member in get_tree().get_nodes_in_group("BrokenPipeParticleNodes"):
-				member.find_node("Particles").visible = true
-			if get_node_or_null("Ball") != null:
-				self.remove_child($Ball)
-			#$Ball.visibleState = true
-			var ballInstance = ball.instance()
-			ballInstance.name = "Ball"
-			self.add_child(ballInstance)
-			for member in positionMap.values():
-				ballInstance.registerBrokenPipe(member)
-			
-			if previousPosition != null:
-						if previousRotation == 0: $Mainmap.set_cellv(previousPosition,previousItem)
-						if previousRotation == 1: $Mainmap.set_cellv(previousPosition,previousItem,true, false ,true)
-						if previousRotation == 2: $Mainmap.set_cellv(previousPosition,previousItem,true,true,false)
-						if previousRotation == 3: $Mainmap.set_cellv(previousPosition,previousItem,false,true,true)
-			
-			$CanvasLayer/PlayPauseIcon.frame=0
-
+					if ($Mainmap.get_used_cells_by_id(pipeIndex).size()< maxPipes && selectedItem == pipeIndex) || ($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()< maxBrokenPipes && selectedItem == brokenPipeIndex) || selectedItem == -1:
+						var currentIndex = $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position()))
+						if ((currentIndex == brokenPipeIndex) || (currentIndex == pipeIndex) || currentIndex == -1) :
+							if currentRotation == 0: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
+							if currentRotation == 1: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem, true, false ,true)
+							if currentRotation == 2: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true,true,false)
+							if currentRotation == 3: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,false,true,true)
+							$Mainmap.update_dirty_quadrants()
+							get_tree().set_input_as_handled()
+							previousPosition = $Mainmap.world_to_map(get_global_mouse_position())
+							previousItem = $Mainmap.get_cellv(previousPosition)
+							previousRotation = currentRotation
 		
-	if Input.is_action_just_pressed("Ingame_edit_mode"):
-		if !editing_status:
-			$CanvasLayer/PlayPauseIcon.frame=1
+							#Update Labels
+							$CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer/UsedBrokenPipesLabel.text = ("BrokenPipes used:"+ str($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()) + "/"+ str(maxBrokenPipes))
+							$CanvasLayer/Control/PanelContainer/HBoxContainer/VBoxContainer/UsedPipesLabel.text = ("Pipes used: " + str($Mainmap.get_used_cells_by_id(pipeIndex).size()) +"/"+str(maxPipes))
+		
+							if positionMap.has(previousPosition):
+								remove_child(positionMap[previousPosition])
+								positionMap.erase(previousPosition)
+								
+							match selectedItem:
+								brokenPipeIndex:
+									var node = BrokenPipeOverlay.instance()
+									node.add_to_group("BrokenPipeParticleNodes")
+									node.position = $Mainmap.map_to_world(previousPosition) + $Mainmap.cell_size/2
+									node.visible = true
+									node.rotation_degrees= currentRotation*90
+									positionMap[previousPosition] = node
+									add_child(node)
+				else:
+					if ($Mainmap.get_used_cells_by_id(pipeIndex).size() -1 <= maxPipes && selectedItem == pipeIndex) || ($Mainmap.get_used_cells_by_id(brokenPipeIndex).size()-1 <= maxBrokenPipes && selectedItem == brokenPipeIndex) || selectedItem == -1:
+						var currentIndex = $Mainmap.get_cellv($Mainmap.world_to_map(get_global_mouse_position()))
+						if ((currentIndex == brokenPipeIndex) || (currentIndex == pipeIndex) || currentIndex == -1) :
+							#player hovered no where before
+							if previousPosition != null:
+								if previousRotation == 0: $Mainmap.set_cellv(previousPosition,previousItem)
+								if previousRotation == 1: $Mainmap.set_cellv(previousPosition,previousItem,true, false ,true)
+								if previousRotation == 2: $Mainmap.set_cellv(previousPosition,previousItem,true,true,false)
+								if previousRotation == 3: $Mainmap.set_cellv(previousPosition,previousItem,false,true,true)
+							previousPosition = $Mainmap.world_to_map(get_global_mouse_position())
+							var flipped_x = $Mainmap.is_cell_x_flipped(previousPosition.x, previousPosition.y)
+							var flipped_y = $Mainmap.is_cell_y_flipped(previousPosition.x, previousPosition.y)
+							var transposed = $Mainmap.is_cell_transposed(previousPosition.x, previousPosition.y)
+							
+							if flipped_x && !flipped_y && transposed: previousRotation = 1
+							elif flipped_x && flipped_y && !transposed: previousRotation = 2
+							elif !flipped_x && flipped_y && transposed: previousRotation = 3
+							else: previousRotation = 0
+							
+							previousItem = $Mainmap.get_cellv(previousPosition)
+							if currentRotation == 0: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
+							if currentRotation == 1: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true, false ,true)
+							if currentRotation == 2: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,true,true,false)
+							if currentRotation == 3: $Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem,false,true,true)
+							
+							#$Mainmap.set_cellv($Mainmap.world_to_map(get_global_mouse_position()),selectedItem)
+							$Mainmap.update_dirty_quadrants()
+	
+	
+		if Input.is_action_just_pressed("Ingame_toggle_start"):
+				editing_status = false
+				get_tree().paused = false
+				
+				for member in get_tree().get_nodes_in_group("BrokenPipeParticleNodes"):
+					member.find_node("Particles").visible = true
+				if get_node_or_null("Ball") != null:
+					self.remove_child($Ball)
+				#$Ball.visibleState = true
+				var ballInstance = ball.instance()
+				ballInstance.name = "Ball"
+				self.add_child(ballInstance)
+				for member in positionMap.values():
+					ballInstance.registerBrokenPipe(member)
+				
+				if previousPosition != null:
+							if previousRotation == 0: $Mainmap.set_cellv(previousPosition,previousItem)
+							if previousRotation == 1: $Mainmap.set_cellv(previousPosition,previousItem,true, false ,true)
+							if previousRotation == 2: $Mainmap.set_cellv(previousPosition,previousItem,true,true,false)
+							if previousRotation == 3: $Mainmap.set_cellv(previousPosition,previousItem,false,true,true)
+				
+				$CanvasLayer/PlayPauseIcon.frame=0
+	
 			
-			editing_status = true
-			self.remove_child($Ball)		
-			for member in get_tree().get_nodes_in_group("BrokenPipeParticleNodes"):
-				member.find_node("Particles").visible = false
-			$CanvasLayer/IngameUI.set_process_input(true)		
-			get_tree().paused = true
-			#Physics2DServer.set_active(true)
-	if Input.is_action_just_pressed("Ingame_rotate"):
-		 currentRotation = posmod(currentRotation+1,4)
-	if Input.is_action_just_pressed("ui_cancel"):
-		if pauseAllowed:
-			if get_node_or_null("CanvasLayer/PauseMenu") == null:
-				var menu = pauseMenu.instance()
-				$CanvasLayer.add_child(menu)
+		if Input.is_action_just_pressed("Ingame_edit_mode"):
+			if !editing_status:
+				$CanvasLayer/PlayPauseIcon.frame=1
+				
+				editing_status = true
+				self.remove_child($Ball)		
+				for member in get_tree().get_nodes_in_group("BrokenPipeParticleNodes"):
+					member.find_node("Particles").visible = false
+				$CanvasLayer/IngameUI.set_process_input(true)		
 				get_tree().paused = true
-			else:
-				$CanvasLayer.remove_child($CanvasLayer/PauseMenu)
+				#Physics2DServer.set_active(true)
+		if Input.is_action_just_pressed("Ingame_rotate"):
+			 currentRotation = posmod(currentRotation+1,4)
+		if Input.is_action_just_pressed("ui_cancel"):
+			if pauseAllowed:
+				if get_node_or_null("CanvasLayer/PauseMenu") == null:
+					var menu = pauseMenu.instance()
+					menu.connect("pauseEnded",self,"pauseEndedSignal")
+					$CanvasLayer.add_child(menu)
+					get_tree().paused = true
+					menuPaused = true
+				else:
+					$CanvasLayer.remove_child($CanvasLayer/PauseMenu)
 
 
 func _on_PlatformButton_toggled():
@@ -188,3 +192,5 @@ func _on_ballGoalEntered(body):
 	var levelCompletedMenuInstance = levelCompletedMenu.instance()
 	pauseAllowed = false
 	$CanvasLayer.add_child(levelCompletedMenuInstance)
+func pauseEndedSignal():
+	menuPaused = false

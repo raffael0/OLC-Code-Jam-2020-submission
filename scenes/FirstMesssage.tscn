@@ -64,7 +64,7 @@ visible_characters = 0
 percent_visible = 0.0
 text = "Finally you are here! As you probably know our pneumatic tube system blew up yesterday and destroyed some of the connections. 
 
-Now our  messages can't reach the Containment facility . Can you  temporarily fix our system so that we can send urgent messages? We only have these old pipes here which might be too small. That surely won't be a problem for you!"
+Now our messages can't reach the Containment facility. Can you temporarily fix our system so that we can send urgent messages? We only have these old pipes here which might be too small. That surely won't be a problem for you!"
 scroll_active = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/VBoxContainer/Label"]

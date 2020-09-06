@@ -8,21 +8,25 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://git_api.gdns"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"GitAPI": ""
+
 }
 
 [application]
 
 config/name="Olc-Code-Jam-2020"
-run/main_scene="res://scenes/MainMenu.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://scenes/FirstMesssage.tscn"
+run/disable_stdout=true
+run/disable_stderr=true
+
+[autoload]
+
+Global="*res://scenes/autoloadScript.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
@@ -30,16 +34,20 @@ window/size/width=1920
 window/size/height=1080
 window/size/resizable=false
 window/dpi/allow_hidpi=true
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "carmel4a97.RTS_Camera2D" )
+enabled=PoolStringArray(  )
 
 [gdnative]
 
-singletons=[ "res://git_api.gdnlib" ]
+singletons=[  ]
+
+[gui]
+
+theme/use_hidpi=true
 
 [input]
 

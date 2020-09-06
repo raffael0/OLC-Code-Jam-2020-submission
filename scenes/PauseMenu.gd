@@ -1,4 +1,5 @@
 extends Control
+signal pauseEnded
 
 var helpScene = preload("res://scenes/HelpMenu.tscn") 
 func _ready():
@@ -8,6 +9,7 @@ func _ready():
 	
 func ContinuePressed():
 	get_tree().paused = false
+	emit_signal("pauseEnded")
 	queue_free()
 func HelpPressed():
 	var helpSceneInstance = helpScene.instance()
@@ -15,6 +17,7 @@ func HelpPressed():
 	get_parent().add_child(helpSceneInstance)
 	#get_tree().change_scene_to(helpSceneInstance)
 func MainMenuPressed():
+	emit_signal("pauseEnded")
 	get_tree().paused = false
 	get_tree().change_scene("res://scenes/MainMenu.tscn")
 	
